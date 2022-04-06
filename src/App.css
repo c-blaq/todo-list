@@ -1,38 +1,126 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  width: 100vw;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background: linear-gradient(to bottom, #74b2bd, #a3d4dd);
+  overflow-x: hidden;
+}
+
+header h1 {
   color: white;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  padding: 1rem 0;
 }
 
-.App-link {
-  color: #61dafb;
+.container {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 765px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+ul {
+  list-style-type: none;
+}
+
+.list-title {
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: #d0e1e3;
+  margin: 1rem 0 0.3rem;
+}
+
+.list-items {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icons button {
+  margin-left: 0.4rem;
+  background: none;
+}
+
+.upcoming-list-items {
+  background: #fff;
+}
+
+.finished-lists-wrapper {
+  margin-top: 3rem;
+}
+
+.finished-list-items {
+  background: #9ed1db;
+  box-shadow: 0px 0px 5px 1px #74b2bd;
+  color: #ebeff0;
+  text-decoration: line-through;
+}
+
+.btn {
+  border: none;
+  color: #71b1bb;
+  cursor: pointer;
+}
+.btn-wrapper {
+  margin: 2rem 0 1rem;
+}
+.btn-add {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  margin: auto;
+  box-shadow: 0px 0px 5px 1px #74b2bd;
+}
+
+.form-wrapper {
+  margin: 1.5rem auto 0;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 2rem 1rem;
+  width: 90%;
+  text-align: center;
+  animation: 0.5s linear show;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    opacity: 1;
   }
+}
+
+.form-wrapper h2 {
+  font-size: 1.25rem;
+}
+.form-control input {
+  width: 100%;
+  padding: 0.7rem;
+  outline: none;
+  margin: 1rem 0;
+}
+.form-wrapper input[type="submit"] {
+  background: #a3d4dd;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 8px;
 }
