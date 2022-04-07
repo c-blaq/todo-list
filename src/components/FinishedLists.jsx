@@ -8,8 +8,7 @@ export const FinishedLists = ({ lists }) => {
       <ul>
         {lists.map((list, index) => (
           <li key={index} className="list-items finished-list-items">
-            {list}
-            {console.log(list)}
+            {list.todo}
             <span className="icons">
               <button className="btn">
                 <FaCheck />

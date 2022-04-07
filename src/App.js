@@ -27,16 +27,26 @@ function App() {
   ]);
   const [finishedTodo, setFinishedTodo] = useState([]);
 
-  // Add to finish
-  const addFinishedTodo = (id) => {
-    const fTodo = todoLists.filter((list) => list.id === id);
-    setFinishedTodo([fTodo, ...finishedTodo]);
-  };
-
   // Add a new todo
   const addTodo = (todo) => {
     const newTodo = { id: Math.floor(Math.random() * 100000) + 1, todo };
     setTodoLists([newTodo, ...todoLists]);
+  };
+
+  // Add to finish - move todo to fininished when the check icon is clicked
+  const addFinishedTodo = (id) => {
+    const fTodo = todoLists.filter((list) => list.id === id);
+    const newUpcoming = todoLists.filter((list) => list.id !== id);
+    setFinishedTodo([fTodo[0], ...finishedTodo]);
+    setTodoLists(newUpcoming);
+  };
+
+  // Remove todo from finished - return todo back to upcoming when the x icon is clicked
+
+  // Delete a todo - delete a todo from upcoming when the x icon is clicked
+  const deleteTodo = (id) => {
+    const updatedLists = todoLists.filter((list) => list.id !== id);
+    setTodoLists(updatedLists);
   };
 
   // toggle todo add input
@@ -46,7 +56,11 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <UpcomingList lists={todoLists} handleFinish={addFinishedTodo} />
+      <UpcomingList
+        lists={todoLists}
+        handleFinish={addFinishedTodo}
+        onDelete={deleteTodo}
+      />
       <FinishedLists lists={finishedTodo} onToggle={toggleShowForm} />
       {showForm && <AddList onAdd={addTodo} />}
       <Button onToggle={toggleShowForm} text={showForm ? "x" : "+"} />
