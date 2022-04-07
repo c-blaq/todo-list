@@ -7,10 +7,9 @@ export const UpcomingList = ({ text, handleFinish, lists, onDelete }) => {
       <h2 className="list-title">Upcoming</h2>
       <p className="para">{text}</p>
       <ul>
-        {lists.map(({ todo, id }) => (
+        {lists.map(({ todo, id, counter }) => (
           <li key={id} className="list-items upcoming-list-items">
-            {todo}
-
+            {counter}. {todo}
             <span className="icons">
               <button className="btn">
                 <FaCheck onClick={() => handleFinish(id)} />

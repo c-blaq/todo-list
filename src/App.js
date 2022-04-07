@@ -1,37 +1,47 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { UpcomingList } from "./components/UpcomingList";
 import { FinishedLists } from "./components/FinishedLists";
 import { Button } from "./components/Button";
 import { AddList } from "./components/AddList";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 function App() {
-  const [todoLists, setTodoLists] = useState([
-    {
-      id: 1,
-      todo: "Read a book",
-    },
-    {
-      id: 2,
-      todo: "Read a book",
-    },
-    {
-      id: 3,
-      todo: "Read a book",
-    },
-    {
-      id: 4,
-      todo: "Read book",
-    },
-  ]);
-  const [finishedTodo, setFinishedTodo] = useState([]);
+  // getting upcoming items from LS
+  const getUpcomingItemFromLS = () => {
+    let upcomingItems = localStorage.getItem("upcomingLists");
+    return upcomingItems ? JSON.parse(upcomingItems) : [];
+  };
+
+  const getFinishedItemFromLS = () => {
+    let finishedItems = localStorage.getItem("finishedLists");
+    return finishedItems ? JSON.parse(finishedItems) : [];
+  };
+
+  const [todoLists, setTodoLists] = useState(getUpcomingItemFromLS());
+  const [finishedTodo, setFinishedTodo] = useState(getFinishedItemFromLS());
+
+  // saving to upcoming to Local Storage LS
+  useEffect(() => {
+    return localStorage.setItem("upcomingLists", JSON.stringify(todoLists));
+  }, [todoLists]);
+
+  // saving to upcoming to Local Storage LS
+  useEffect(() => {
+    return localStorage.setItem("finishedLists", JSON.stringify(finishedTodo));
+  }, [finishedTodo]);
 
   // Add a new todo
   const addTodo = (todo) => {
-    const newTodo = { id: Math.floor(Math.random() * 100000) + 1, todo };
-    setTodoLists([newTodo, ...todoLists]);
+    const newTodo = {
+      id: Math.floor(Math.random() * 100000) + 1,
+      todo,
+      counter:
+        todoLists.length > 8
+          ? todoLists.length + 1
+          : `0${todoLists.length + 1}`,
+    };
+    setTodoLists([...todoLists, newTodo]);
   };
 
   // A function to filter the todo lists- returns the given id
@@ -49,7 +59,7 @@ function App() {
     const fTodo = filterTodo(id);
     const newUpcoming = filterTodoId(id);
 
-    setFinishedTodo([fTodo[0], ...finishedTodo]);
+    setFinishedTodo([...finishedTodo, fTodo[0]]);
     setTodoLists(newUpcoming);
   };
 
