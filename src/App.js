@@ -1,23 +1,24 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { Home } from "./components/Home";
 import { Header } from "./components/Header";
 import { UpcomingList } from "./components/UpcomingList";
 import { FinishedLists } from "./components/FinishedLists";
 import { Button } from "./components/Button";
 import { AddList } from "./components/AddList";
 
+// getting upcoming items from LS
+const getUpcomingItemFromLS = () => {
+  let upcomingItems = localStorage.getItem("upcomingLists");
+  return upcomingItems ? JSON.parse(upcomingItems) : [];
+};
+
+const getFinishedItemFromLS = () => {
+  let finishedItems = localStorage.getItem("finishedLists");
+  return finishedItems ? JSON.parse(finishedItems) : [];
+};
+
 function App() {
-  // getting upcoming items from LS
-  const getUpcomingItemFromLS = () => {
-    let upcomingItems = localStorage.getItem("upcomingLists");
-    return upcomingItems ? JSON.parse(upcomingItems) : [];
-  };
-
-  const getFinishedItemFromLS = () => {
-    let finishedItems = localStorage.getItem("finishedLists");
-    return finishedItems ? JSON.parse(finishedItems) : [];
-  };
-
   const [todoLists, setTodoLists] = useState(getUpcomingItemFromLS());
   const [finishedTodo, setFinishedTodo] = useState(getFinishedItemFromLS());
 
@@ -37,9 +38,9 @@ function App() {
       id: Math.floor(Math.random() * 100000) + 1,
       todo,
       counter:
-        todoLists.length > 8
-          ? todoLists.length + 1
-          : `0${todoLists.length + 1}`,
+        todoLists.length + finishedTodo.length > 8
+          ? todoLists.length + finishedTodo.length + 1
+          : `0${todoLists.length + finishedTodo.length + 1}`,
     };
     setTodoLists([...todoLists, newTodo]);
   };
@@ -59,7 +60,8 @@ function App() {
     const fTodo = filterTodo(id);
     const newUpcoming = filterTodoId(id);
 
-    setFinishedTodo([...finishedTodo, fTodo[0]]);
+    setFinishedTodo([fTodo[0], ...finishedTodo]);
+    console.log(fTodo);
     setTodoLists(newUpcoming);
   };
 
@@ -86,18 +88,24 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <UpcomingList
-        lists={todoLists}
-        text={todoLists.length > 0 ? "" : "No Upcoming Todo"}
-        handleFinish={addFinishedTodo}
-        onDelete={deleteTodo}
-      />
-      <FinishedLists
-        lists={finishedTodo}
-        text={todoLists.length > 0 ? "" : "No Finished Todo"}
-        onToggle={toggleShowForm}
-        onRemove={removeFinishedTodo}
-      />
+      {todoLists.length > 0 ? (
+        <>
+          <UpcomingList
+            lists={todoLists}
+            text={todoLists.length > 0 ? "" : "No Upcoming Todo"}
+            handleFinish={addFinishedTodo}
+            onDelete={deleteTodo}
+          />
+          <FinishedLists
+            lists={finishedTodo}
+            text={todoLists.length > 0 ? "" : "No Finished Todo"}
+            onToggle={toggleShowForm}
+            onRemove={removeFinishedTodo}
+          />
+        </>
+      ) : (
+        <Home />
+      )}
       {showForm && <AddList onAdd={addTodo} />}
       <Button onToggle={toggleShowForm} text={showForm ? "x" : "+"} />
     </div>
