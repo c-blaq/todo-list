@@ -6,6 +6,7 @@ import { UpcomingList } from "./components/UpcomingList";
 import { FinishedLists } from "./components/FinishedLists";
 import { Button } from "./components/Button";
 import { AddList } from "./components/AddList";
+import { v4 as uuidv4 } from "uuid";
 
 // getting upcoming items from LS
 const getUpcomingItemFromLS = () => {
@@ -35,30 +36,21 @@ function App() {
   // Add a new todo
   const addTodo = (todo) => {
     const newTodo = {
-      id: Math.floor(Math.random() * 100000) + 1,
+      id: uuidv4(),
       todo,
       counter:
         todoLists.length + finishedTodo.length > 8
           ? todoLists.length + finishedTodo.length + 1
           : `0${todoLists.length + finishedTodo.length + 1}`,
     };
+    console.log(newTodo.id);
     setTodoLists([...todoLists, newTodo]);
-  };
-
-  // A function to filter the todo lists- returns the given id
-  const filterTodo = (id) => {
-    return todoLists.filter((list) => list.id === id);
-  };
-
-  // A function to filter the todo lists- remove the given id
-  const filterTodoId = (id) => {
-    return todoLists.filter((list) => list.id !== id);
   };
 
   // Add to finish - move todo to fininished when the check icon is clicked
   const addFinishedTodo = (id) => {
-    const fTodo = filterTodo(id);
-    const newUpcoming = filterTodoId(id);
+    const fTodo = todoLists.filter((list) => list.id === id);
+    const newUpcoming = todoLists.filter((list) => list.id !== id);
 
     setFinishedTodo([fTodo[0], ...finishedTodo]);
     console.log(fTodo);
@@ -67,12 +59,11 @@ function App() {
 
   // Remove todo from finished - return todo back to upcoming when the x icon is clicked
   const removeFinishedTodo = (id) => {
-    const uTodo = filterTodo(id);
-    const newFinished = filterTodoId(id);
-    console.log("uTodo", uTodo);
-    console.log("UTODOO", uTodo[0]);
-    setTodoLists([uTodo, ...todoLists]);
-    setFinishedTodo(newFinished);
+    const selectedTodo = finishedTodo.find((todo) => todo.id === id);
+    const fTodo = finishedTodo.filter((todo) => todo.id !== id);
+
+    setTodoLists([selectedTodo, ...todoLists]);
+    setFinishedTodo(fTodo);
   };
 
   // Delete a todo - delete a todo from upcoming when the x icon is clicked
