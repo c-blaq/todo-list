@@ -43,7 +43,6 @@ function App() {
           ? todoLists.length + finishedTodo.length + 1
           : `0${todoLists.length + finishedTodo.length + 1}`,
     };
-    console.log(newTodo.id);
     setTodoLists([...todoLists, newTodo]);
   };
 
