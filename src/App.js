@@ -23,12 +23,12 @@ function App() {
   const [todoLists, setTodoLists] = useState(getUpcomingItemFromLS());
   const [finishedTodo, setFinishedTodo] = useState(getFinishedItemFromLS());
 
-  // saving to upcoming to Local Storage LS
+  // saving upcoming to Local Storage LS
   useEffect(() => {
     return localStorage.setItem("upcomingLists", JSON.stringify(todoLists));
   }, [todoLists]);
 
-  // saving to upcoming to Local Storage LS
+  // saving finished to Local Storage LS
   useEffect(() => {
     return localStorage.setItem("finishedLists", JSON.stringify(finishedTodo));
   }, [finishedTodo]);
@@ -82,10 +82,10 @@ function App() {
         <>
           <UpcomingList
             lists={todoLists}
-            text={todoLists.length > 0 ? "" : "No Upcoming Todo"}
             handleFinish={addFinishedTodo}
             onDelete={deleteTodo}
           />
+
           <FinishedLists
             lists={finishedTodo}
             text={todoLists.length > 0 ? "" : "No Finished Todo"}
