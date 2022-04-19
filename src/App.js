@@ -85,11 +85,6 @@ function App() {
     const [draggedItems] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, draggedItems);
     setTodoLists(items);
-
-    const itemsF = Array.from(finishedTodo);
-    const [draggedItemsF] = itemsF.splice(result.source.index, 1);
-    itemsF.splice(result.destination.index, 0, draggedItemsF);
-    setFinishedTodo(itemsF);
   };
 
   return (
@@ -103,14 +98,14 @@ function App() {
               handleFinish={addFinishedTodo}
               onDelete={deleteTodo}
             />
-
-            <FinishedLists
-              lists={finishedTodo}
-              text={todoLists.length > 0 ? "" : "No Finished Todo"}
-              onToggle={toggleShowForm}
-              onRemove={removeFinishedTodo}
-            />
           </DragDropContext>
+
+          <FinishedLists
+            lists={finishedTodo}
+            text={todoLists.length > 0 ? "" : "No Finished Todo"}
+            onToggle={toggleShowForm}
+            onRemove={removeFinishedTodo}
+          />
         </>
       ) : (
         <Home />
