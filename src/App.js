@@ -7,6 +7,7 @@ import { FinishedLists } from "./components/FinishedLists";
 import { Button } from "./components/Button";
 import { AddList } from "./components/AddList";
 import { v4 as uuidv4 } from "uuid";
+import { DragDropContext } from "react-beautiful-dnd";
 
 // getting upcoming items from LS
 const getUpcomingItemFromLS = () => {
@@ -75,23 +76,41 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => setShowForm(!showForm);
 
+  // Handling DND
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const items = Array.from(todoLists);
+    const [draggedItems] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, draggedItems);
+    setTodoLists(items);
+
+    const itemsF = Array.from(finishedTodo);
+    const [draggedItemsF] = itemsF.splice(result.source.index, 1);
+    itemsF.splice(result.destination.index, 0, draggedItemsF);
+    setFinishedTodo(itemsF);
+  };
+
   return (
     <div className="container">
       <Header />
       {todoLists.length > 0 ? (
         <>
-          <UpcomingList
-            lists={todoLists}
-            handleFinish={addFinishedTodo}
-            onDelete={deleteTodo}
-          />
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <UpcomingList
+              lists={todoLists}
+              handleFinish={addFinishedTodo}
+              onDelete={deleteTodo}
+            />
 
-          <FinishedLists
-            lists={finishedTodo}
-            text={todoLists.length > 0 ? "" : "No Finished Todo"}
-            onToggle={toggleShowForm}
-            onRemove={removeFinishedTodo}
-          />
+            <FinishedLists
+              lists={finishedTodo}
+              text={todoLists.length > 0 ? "" : "No Finished Todo"}
+              onToggle={toggleShowForm}
+              onRemove={removeFinishedTodo}
+            />
+          </DragDropContext>
         </>
       ) : (
         <Home />
