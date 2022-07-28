@@ -139,6 +139,20 @@ div {
   }
 }
 
+/* @media (min-width: 1024px) {
+  .form-wrapper,
+  .btn-wrapper {
+    position: absolute;
+    left: 25%;
+    bottom: 50%;
+  }
+
+  .form-wrapper {
+    width: 30%;
+    right: -25%;
+  }
+} */
+
 .form-wrapper h2 {
   font-size: 1.25rem;
 }
